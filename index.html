@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>price</th>
+                <th>description</th>
+                <th>calories</th>
+            </tr>
+        </thead>
+        <tbody class="DataListe">
+
+        </tbody>
+    </table>
+    <script>
+        fetch("/note.xml").then(x => x.text()).then((data) => {
+            const xmlDox = new DOMParser().parseFromString(data,"application/xml");
+            var x = xmlDox.querySelectorAll("food");
+            var gelendata = "";
+            x.forEach((element) => {
+                gelendata += `
+                   <tr>
+                       <td>${element.querySelector("name").childNodes[0].nodeValue}</td>                   
+                       <td>${element.querySelector("price").childNodes[0].nodeValue}</td>                   
+                       <td>${element.querySelector("description").childNodes[0].nodeValue}</td>                   
+                       <td>${element.querySelector("calories").childNodes[0].nodeValue}</td>                   
+                   </tr>
+                `;
+            });
+            document.querySelector(".DataListe").innerHTML = gelendata;
+        });
+    </script>
+</body>
+</html>
